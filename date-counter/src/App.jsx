@@ -1,35 +1,39 @@
 import "./App.css";
 import { useState } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <Counter />
-    </div>
-  );
-}
-
 function Counter() {
   const [count, setCount] = useState(0);
   const [step, setStep] = useState(1);
 
+  function handeleReset() {
+    setCount(0);
+    setStep(1);
+  }
+
   const date = new Date("December 31, 2027");
   date.setDate(date.getDate() + count);
 
-  
-
   return (
-    <div>
+    <div className="counter">
       <div>
-        <button onClick={() => setStep((c) => c - 1)}>-</button>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          value={step}
+          onChange={(e) => setStep(Number(e.target.value))}
+        />
         <span>Step: {step}</span>
-        <button onClick={() => setStep((c) => c + 1)}>+</button>
       </div>
 
       <div>
-        <button onClick={() => setCount((c) => c - step)}>-</button>
-        <span>Count: {count}</span>
-        <button onClick={() => setCount((c) => c + step)}>+</button>
+        <button onClick={() => setCount((c) => c - 1)}>-</button>
+        <input
+          type="text"
+          value={count}
+          onChange={(e) => setCount(Number(e.target.value))}
+        />
+        <button onClick={() => setCount((c) => c + 1)}>+</button>
       </div>
 
       <p>
@@ -42,8 +46,14 @@ function Counter() {
         </span>
         <span>{date.toDateString()}</span>
       </p>
+
+      {count !== 0 || step !== 1 ? (
+        <div>
+          <button onClick={handeleReset}>Reset</button>
+        </div>
+      ) : null}
     </div>
   );
 }
 
-export default App;
+export default Counter;
